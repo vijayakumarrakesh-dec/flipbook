@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 
-<!-- 📱 iPhone optimization -->
+<!-- 📱 important -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Bali Stories</title>
@@ -15,47 +15,45 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 100dvh; /* fix mobile height */
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
-
-  padding-top: env(safe-area-inset-top);
-  padding-bottom: env(safe-area-inset-bottom);
 }
 
-/* 📱 responsive book */
+/* 📱 FIXED PROPER SIZE */
 .book {
-  width: 92vw;
-  height: 80vh;
-  max-width: 420px;
-  max-height: 720px;
+  width: min(92vw, 380px);
+  aspect-ratio: 3/4; /* perfect card ratio */
   position: relative;
-  perspective: 1500px;
+  perspective: 1200px;
 }
 
+/* PAGE */
 .page {
+  position: absolute;
   width: 100%;
   height: 100%;
-  position: absolute;
   transform-style: preserve-3d;
-  transform-origin: left;
-  transition: transform 1s ease;
-  cursor: pointer;
+  transform-origin: left center;
+  transition: transform 0.9s ease;
 }
 
+/* FRONT + BACK */
 .front, .back {
   position: absolute;
   width: 100%;
   height: 100%;
-  border-radius: 22px;
+  border-radius: 18px;
   overflow: hidden;
   backface-visibility: hidden;
 }
 
+/* FRONT */
 .front {
-  background: white;
-  box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+  background: #fff;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.2);
 }
 
+/* BACK */
 .back {
   transform: rotateY(180deg);
   background: linear-gradient(to bottom, #ffe3e3, #ffd6a5);
@@ -63,42 +61,44 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 28px;
-  font-size: 17px;
+  padding: 22px;
+  font-size: 15px;
   color: #5a3e36;
   opacity: 0;
-  transition: opacity 0.8s ease;
-  line-height: 1.6;
+  transition: opacity 0.6s ease;
+  line-height: 1.5;
 }
 
+/* FLIP */
 .page.flipped {
   transform: rotateY(-180deg);
-  z-index: 0 !important;
 }
 
 .page.flipped .back {
   opacity: 1;
 }
 
+/* MEDIA */
 img, video {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* slightly larger for mobile readability */
+/* CAPTION */
 .caption {
   position: absolute;
-  bottom: 24px;
-  left: 18px;
-  right: 18px;
+  bottom: 14px;
+  left: 12px;
+  right: 12px;
+  font-size: 13px;
   color: white;
-  font-size: 15px;
   background: rgba(0,0,0,0.4);
-  padding: 10px;
-  border-radius: 10px;
+  padding: 6px;
+  border-radius: 6px;
 }
 
+/* TITLE */
 .title {
   display: flex;
   justify-content: center;
@@ -107,21 +107,22 @@ img, video {
   text-align: center;
   background: linear-gradient(to bottom, #fbc2eb, #a6c1ee);
   color: white;
-  padding: 20px;
+  padding: 16px;
 }
 
+/* FINAL */
 .final {
   display: flex;
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 25px;
-  font-size: 22px;
+  padding: 16px;
+  font-size: 18px;
   color: #4a2c2a;
   background: linear-gradient(to bottom right, #ffd6e0, #fff1eb);
 }
 
-/* layering */
+/* STACK */
 .page:nth-child(1) { z-index: 8; }
 .page:nth-child(2) { z-index: 7; }
 .page:nth-child(3) { z-index: 6; }
@@ -177,7 +178,7 @@ img, video {
 <!-- VIDEO -->
 <div class="page">
   <div class="front">
-    <video id="video1" muted playsinline controls preload="auto">
+    <video muted playsinline controls>
       <source src="video.mp4" type="video/mp4">
     </video>
     <div class="caption">Somewhere between the sky and the land… you didn’t feel real 🙂</div>
@@ -232,18 +233,16 @@ document.querySelectorAll(".page").forEach(page => {
           if (i < text.length) {
             textBox.innerHTML += text.charAt(i);
             i++;
-            setTimeout(type, 30);
+            setTimeout(type, 25);
           }
         }
         type();
-      }, 400);
+      }, 300);
     }
 
-    /* 🎥 MOBILE VIDEO FIX */
     const video = page.querySelector("video");
     if (video) {
-      video.load();
-      video.play().catch(() => {});
+      video.play().catch(()=>{});
     }
 
   });
