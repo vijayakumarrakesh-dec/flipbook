@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-
-<!-- 📱 important -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
 <title>Bali Stories</title>
@@ -15,19 +13,18 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100dvh; /* fix mobile height */
+  height: 100dvh;
   font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
-/* 📱 FIXED PROPER SIZE */
+/* 📱 better mobile size */
 .book {
-  width: min(92vw, 380px);
-  aspect-ratio: 3/4; /* perfect card ratio */
+  width: min(88vw, 360px);
+  aspect-ratio: 3/4;
   position: relative;
   perspective: 1200px;
 }
 
-/* PAGE */
 .page {
   position: absolute;
   width: 100%;
@@ -37,7 +34,6 @@ body {
   transition: transform 0.9s ease;
 }
 
-/* FRONT + BACK */
 .front, .back {
   position: absolute;
   width: 100%;
@@ -61,12 +57,11 @@ body {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 22px;
+  padding: 20px;
   font-size: 15px;
   color: #5a3e36;
   opacity: 0;
   transition: opacity 0.6s ease;
-  line-height: 1.5;
 }
 
 /* FLIP */
@@ -78,19 +73,20 @@ body {
   opacity: 1;
 }
 
-/* MEDIA */
-img, video {
+/* 📸 IMAGE FIX */
+img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain; /* 👈 key fix */
+  background: #000; /* avoids white gaps */
 }
 
 /* CAPTION */
 .caption {
   position: absolute;
-  bottom: 14px;
-  left: 12px;
-  right: 12px;
+  bottom: 12px;
+  left: 10px;
+  right: 10px;
   font-size: 13px;
   color: white;
   background: rgba(0,0,0,0.4);
@@ -122,7 +118,7 @@ img, video {
   background: linear-gradient(to bottom right, #ffd6e0, #fff1eb);
 }
 
-/* STACK */
+/* stacking */
 .page:nth-child(1) { z-index: 8; }
 .page:nth-child(2) { z-index: 7; }
 .page:nth-child(3) { z-index: 6; }
@@ -175,12 +171,10 @@ img, video {
   <div class="back type-text" data-text="I was genuinely hoping that swing might somehow bring you to Bangalore 😏"></div>
 </div>
 
-<!-- VIDEO -->
+<!-- 🔁 REPLACED VIDEO WITH IMAGE -->
 <div class="page">
   <div class="front">
-    <video muted playsinline controls>
-      <source src="video.mp4" type="video/mp4">
-    </video>
+    <img src="photo4.jpeg">
     <div class="caption">Somewhere between the sky and the land… you didn’t feel real 🙂</div>
   </div>
   <div class="back type-text" data-text="Why does your cute smile put me in a trance? 🙂"></div>
@@ -189,7 +183,7 @@ img, video {
 <!-- PHOTO 4 -->
 <div class="page">
   <div class="front">
-    <img src="photo4.jpeg">
+    <img src="photo5.jpeg">
     <div class="caption">This one… felt like a moment worth keeping 🙂</div>
   </div>
   <div class="back type-text" data-text="You hid your eyes here… it would’ve been a beautiful storm otherwise 🙂"></div>
@@ -198,7 +192,7 @@ img, video {
 <!-- PHOTO 5 -->
 <div class="page">
   <div class="front">
-    <img src="photo5.jpg">
+    <img src="photo6.jpeg">
     <div class="caption">Surrounded by all that green… and still the most breathtaking part of the view 🙂</div>
   </div>
   <div class="back type-text" data-text="Some moments don’t need anything extra… they’re already perfect 🙂"></div>
@@ -222,29 +216,23 @@ document.querySelectorAll(".page").forEach(page => {
     page.classList.add("flipped");
 
     const textBox = page.querySelector(".type-text");
-    if (textBox) {
-      const text = textBox.getAttribute("data-text");
-      textBox.innerHTML = "";
+    if (!textBox) return;
 
-      let i = 0;
+    const text = textBox.getAttribute("data-text");
+    textBox.innerHTML = "";
 
-      setTimeout(() => {
-        function type() {
-          if (i < text.length) {
-            textBox.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(type, 25);
-          }
+    let i = 0;
+
+    setTimeout(() => {
+      function type() {
+        if (i < text.length) {
+          textBox.innerHTML += text.charAt(i);
+          i++;
+          setTimeout(type, 25);
         }
-        type();
-      }, 300);
-    }
-
-    const video = page.querySelector("video");
-    if (video) {
-      video.play().catch(()=>{});
-    }
-
+      }
+      type();
+    }, 300);
   });
 });
 </script>
